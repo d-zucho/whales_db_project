@@ -23,13 +23,51 @@
 <body>
 	<div id="container">
 		<!--Add include statements here-->
-		
-		
+		<?php include("includes/header.php") ?>;
+		<?php include("includes/nav.php") ?>;
 			<div id="midcol">
 				<h2>Whale Table Information</h2>
 				<p>
 					<!--Add the table here-->
-					
+					<?php
+						// This script retrieves all the records from the whales table
+						require ('mysqli_connect.php');
+						// Make the query
+						$query = "SELECT whale_name, type, length, status FROM whales ORDER BY whale_name ASC";
+						$result = @mysqli_query($dbcon, $query);
+						if ($result) {
+
+						// Table Header
+						echo '<table cellpadding="5">
+							<tr>
+								<td align="left"><b>Whale Name</b></td>
+								<td align="left"><b>Type</b></td>
+								<td align="left"><b>Length</b></td>
+								<td align="left"><b>Status</b></td>
+							</tr>';
+						// Fetch and print all the records
+						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+							ECHO '
+								<tr>
+									<td align="left">'.$row['whale_name'].'</td>
+									<td align="left">'.$row['type'].'</td>
+									<td align="left">'.$row['length'].'</td>
+									<td align="left">'.$row['status'].'</td>
+								</tr>';
+						}
+					echo '</table>';		// close the table
+						mysqli_free_result($result);		// Free up the resources
+					} else {
+							// Message
+							echo '<p>This whale could not be retrieved.
+							Please accept our apology for any inconvenience</p>';
+
+							// Debugging Message
+							echo '<p>'.mysqli_error($dbcon).'<br /><br />Query: '.$query.'</p>';
+							// End of if ($result)
+						}
+						mysqli_close($dbcon)
+					?>
 					
 					
 					
@@ -37,7 +75,11 @@
 			</div>
 	</div>
 	<!--Add footer here-->
-	
+	<div id="footer">
+		<footer>
+			<?php include ("includes/footer.php")?>;
+		</footer>
+	</div>
 	
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="">
 <head>
 	<title>Guest Registration</title>
 	<meta charset=utf-8>
